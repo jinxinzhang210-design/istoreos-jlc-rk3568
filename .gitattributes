@@ -1,0 +1,15 @@
+# Text files that MUST stay LF on the Linux runner.
+*.sh    text eol=lf
+*.py    text eol=lf
+*.mk    text eol=lf
+*.dts   text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.seed  text eol=lf
+*.md    text eol=lf
+
+# Binary artifacts - never touch these.
+*.dtb   binary
+*.bin   binary
+*.img   binary
+*.gz    binary
