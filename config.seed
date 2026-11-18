@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------
+# iStoreOS 24.10 - JLC RK3568 8125 (RTL8125 2.5GbE) minimal .config seed
+# `make defconfig` expands this into the full .config.
+# Unknown symbols are silently dropped by defconfig, so extra packages here
+# are safe even if a package name changes. Edit freely to add your own apps.
+# ---------------------------------------------------------------------------
+
+# ---- target / subtarget / device ------------------------------------------
+# MULTI_PROFILE + explicit DEVICE symbol is the exact form used by the proven
+# iStoreOS cloud-build configs (xiaomeng9597/iStoreOS-RK35XX-24.10 armv8/.config).
+CONFIG_TARGET_rockchip=y
+CONFIG_TARGET_rockchip_armv8=y
+CONFIG_TARGET_MULTI_PROFILE=y
+CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_jlc_rk3568_8125=y
+CONFIG_TARGET_ROOTFS_SQUASHFS=y
+
+# ---- LuCI + Chinese + iStore app store ------------------------------------
+# luci = LuCI collection meta package (pulls luci-base, uhttpd, modules).
+# luci-app-store comes from the "store" feed (github.com/istoreos/istore),
+# and pulls taskd / luci-lib-taskd / luci-lib-xterm automatically.
+CONFIG_PACKAGE_luci=y
+CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
+CONFIG_PACKAGE_luci-app-store=y
+
+# ---- board hardware -------------------------------------------------------
+# RTL8125 2.5GbE PCIe NICs. The donor image used the in-kernel r8169 driver,
+# so keep that one only. Do NOT also enable kmod-r8125 (vendor driver) -
+# both claim the same PCI ID and will conflict.
+CONFIG_PACKAGE_kmod-r8169=y
+
+# ---- U-Boot (belt-and-braces) ---------------------------------------------
+# include/u-boot.mk only makes a U-Boot package DEFAULT:=y when the selected
+# device is in its BUILD_DEVICES. inject.sh patches that list, but explicitly
+# selecting the package here guarantees $(STAGING_DIR_IMAGE)/<name>-u-boot-
+# rockchip.bin exists for the pine64-img 'dd' step. Without a U-Boot image
+# the final .img.gz is never produced.
+CONFIG_PACKAGE_u-boot-nanopi-r5s-rk3568=y
