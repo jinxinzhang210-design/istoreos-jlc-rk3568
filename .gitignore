@@ -1,0 +1,6 @@
+openwrt/
+artifacts/
+build.log
+*.dtb.check
+__pycache__/
+*.pyc
